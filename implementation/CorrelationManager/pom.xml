@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modelVersion>4.0.0</modelVersion>
+<groupId>org.govhack.correlate</groupId> <!-- e.g. org.apache.maven -->
+<artifactId>correlation-manager</artifactId>
+<packaging>jar</packaging> <!-- e.g. jar -->
+<version>1.0-SNAPSHOT</version> <!-- e.g. 1.0.0.0-SNAPSHOT -->
+<name>Correlation Manager</name>
+
+<description>Description about this application</description>
+
+<!-- The properties can be added to for each individual pom, 
+this is just an example. You can add your own properties here -->
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+</project>
