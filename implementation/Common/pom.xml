@@ -4,10 +4,10 @@
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 <groupId>org.govhack.correlate</groupId> <!-- e.g. org.apache.maven -->
-<artifactId>correlation-uploader</artifactId>
+<artifactId>correlation-common</artifactId>
 <packaging>jar</packaging> <!-- e.g. jar -->
 <version>1.0-SNAPSHOT</version> <!-- e.g. 1.0.0.0-SNAPSHOT -->
-<name>Correlation Data Uploader</name>
+<name>Correlation Common</name>
 
 <description>Description about this application</description>
 
