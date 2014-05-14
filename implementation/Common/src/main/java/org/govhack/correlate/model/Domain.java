@@ -1,11 +1,13 @@
 package org.govhack.correlate.model;
 
+import com.microsoft.windowsazure.services.table.client.TableServiceEntity;
+
 import java.util.UUID;
 
 /**
  * @author Aidan Morgan
  */
-public class Domain {
+public class Domain extends TableServiceEntity {
     private UUID id;
     private String name;
     private DomainType type;
@@ -13,7 +15,7 @@ public class Domain {
     private UUID dataId;
 
     public Domain() {
-        id = UUID.randomUUID();
+        setId(UUID.randomUUID());
     }
 
     public UUID getId() {
@@ -22,6 +24,7 @@ public class Domain {
 
     public void setId(UUID id) {
         this.id = id;
+        super.setRowKey(id.toString());
     }
 
     public DomainType getType() {

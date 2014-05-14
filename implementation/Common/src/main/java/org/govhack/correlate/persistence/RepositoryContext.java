@@ -1,11 +1,16 @@
 package org.govhack.correlate.persistence;
 
+import com.microsoft.windowsazure.services.blob.client.CloudBlobClient;
+import com.microsoft.windowsazure.services.core.storage.CloudStorageAccount;
+import com.microsoft.windowsazure.services.table.client.CloudTableClient;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.security.InvalidKeyException;
 import java.util.Properties;
 
 /**
@@ -111,8 +116,14 @@ public class RepositoryContext {
      * @return a new instance of the {@see CloudTableClient} configured using the credentials in this context.
      */
     public CloudTableClient createTableClient() {
-        CloudStorageAccount storageAccount = CloudStorageAccount.parse(createConnectionString());
-        return storageAccount.createCloudTableClient();
+        try {
+            CloudStorageAccount storageAccount = CloudStorageAccount.parse(createConnectionString());
+            return storageAccount.createCloudTableClient();
+        } catch (URISyntaxException e) {
+            throw new PersistenceExcepion(e);
+        } catch (InvalidKeyException e) {
+            throw new PersistenceExcepion(e);
+        }
     }
 
     /**
@@ -120,8 +131,14 @@ public class RepositoryContext {
      *
      * @return a new instance of the {@see CloudBlobClient} configured using the credentials in this context.
      */
-    public CloudBlobClient getBlobClient() {
-        CloudStorageAccount storageAccount = CloudStorageAccount.parse(createConnectionString());
-        return storageAccount.createCloudBlobClient();
+    public CloudBlobClient createBlobClient() {
+        try {
+            CloudStorageAccount storageAccount = CloudStorageAccount.parse(createConnectionString());
+            return storageAccount.createCloudBlobClient();
+        } catch (URISyntaxException e) {
+            throw new PersistenceExcepion(e);
+        } catch (InvalidKeyException e) {
+            throw new PersistenceExcepion(e);
+        }
     }
 }
