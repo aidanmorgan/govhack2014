@@ -38,7 +38,7 @@ public class JpaUnitOfWork implements UnitOfWork {
     @Override
     public Repository<DataSet> getDataSetRepository() {
         if (dataSetRepository == null) {
-            dataSetRepository = new DefaultRepository<DataSet>(entityManager, DataSet.class);
+            dataSetRepository = new DefaultRepository<DataSet>(this, entityManager, DataSet.class);
         }
 
         return dataSetRepository;
@@ -49,7 +49,7 @@ public class JpaUnitOfWork implements UnitOfWork {
     @Override
     public Repository<Range> getRangeRepository() {
         if (rangeRepository == null) {
-            rangeRepository = new DefaultRepository<Range>(entityManager, Range.class);
+            rangeRepository = new DefaultRepository<Range>(this, entityManager, Range.class);
         }
 
         return rangeRepository;
@@ -60,7 +60,7 @@ public class JpaUnitOfWork implements UnitOfWork {
     @Override
     public Repository<Domain> getDomainRepository() {
         if (domainRepository == null) {
-            domainRepository = new DefaultRepository<Domain>(entityManager, Domain.class);
+            domainRepository = new DefaultRepository<Domain>(this, entityManager, Domain.class);
         }
 
         return domainRepository;
@@ -71,7 +71,7 @@ public class JpaUnitOfWork implements UnitOfWork {
     @Override
     public Repository<Correlation> getCorrelationRepository() {
         if (correlationRepository == null) {
-            correlationRepository = new DefaultRepository<Correlation>(entityManager, Correlation.class);
+            correlationRepository = new DefaultRepository<Correlation>(this, entityManager, Correlation.class);
         }
 
         return correlationRepository;
@@ -82,7 +82,7 @@ public class JpaUnitOfWork implements UnitOfWork {
     @Override
     public Repository<DataSetPair> getDataSetPairRepository() {
         if (dataSetPairRepository == null) {
-            dataSetPairRepository = new DefaultRepository<DataSetPair>(entityManager, DataSetPair.class);
+            dataSetPairRepository = new DefaultRepository<DataSetPair>(this, entityManager, DataSetPair.class);
         }
 
         return dataSetPairRepository;
@@ -95,7 +95,7 @@ public class JpaUnitOfWork implements UnitOfWork {
     @Override
     public void save() {
         if (isReadOnly()) {
-            throw new IllegalStateException("Cannot call add on a read only UnitOfWork!");
+            throw new IllegalStateException("Cannot call save on a read only UnitOfWork!");
         }
 
         try {
@@ -106,7 +106,7 @@ public class JpaUnitOfWork implements UnitOfWork {
             }
 
             if (s_log.isFatalEnabled()) {
-                s_log.fatal("Exception thrown during add().", e);
+                s_log.fatal("Exception thrown during save().", e);
             }
         }
     }

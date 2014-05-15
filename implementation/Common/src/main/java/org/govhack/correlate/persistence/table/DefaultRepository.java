@@ -12,34 +12,44 @@ import java.util.UUID;
  * @author Aidan Morgan
  */
 public class DefaultRepository<T extends Entity> implements Repository<T> {
-    private final EntityManager mgr;
+    private final JpaUnitOfWork unitOfWork;
+    private final EntityManager entityManager;
     private final Class<T> clazz;
 
-    public DefaultRepository(EntityManager mgr, Class<T> clazz) {
-        this.mgr = mgr;
+    public DefaultRepository(JpaUnitOfWork uow, EntityManager mgr, Class<T> clazz) {
+        this.unitOfWork = uow;
+        this.entityManager = mgr;
         this.clazz = clazz;
     }
 
     @Override
     public T get(UUID id) {
-        return mgr.find(clazz, id);
+        return entityManager.find(clazz, id);
     }
 
     @Override
     public void add(T val) {
-        mgr.persist(val);
+        if(unitOfWork.isReadOnly()) {
+            throw new IllegalStateException("Cannot call add() on a read only UnitOfWork.");
+        }
+
+        entityManager.persist(val);
     }
 
     @Override
     public void delete(T val) {
-        mgr.remove(val);
+        if(unitOfWork.isReadOnly()) {
+            throw new IllegalStateException("Cannot call delete() on a read only UnitOfWork.");
+        }
+
+        entityManager.remove(val);
     }
 
     @Override
     public List<T> all() {
-        CriteriaQuery<T> criteria = mgr.getCriteriaBuilder().createQuery(clazz);
+        CriteriaQuery<T> criteria = entityManager.getCriteriaBuilder().createQuery(clazz);
         criteria.select(criteria.from(clazz));
 
-        return mgr.createQuery(criteria).getResultList();
+        return entityManager.createQuery(criteria).getResultList();
     }
 }
