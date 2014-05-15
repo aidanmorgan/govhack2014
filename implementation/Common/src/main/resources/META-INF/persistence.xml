@@ -7,7 +7,7 @@
         <properties>
             <property name="hibernate.connection.driver_class" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
             <!--GET THIS STRING FROM AZURE!-->
-            <!--<property name="hibernate.connection.url" value="jdbc:sqlserver://nbcr8qx7x8.database.windows.net:1433;database=;user=;password=;encrypt=true;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"/>-->
+            <property name="hibernate.connection.url" value="jdbc:sqlserver://nbcr8qx7x8.database.windows.net:1433;database=aidan0;user=morgana@nbcr8qx7x8;password=Bailey28122001;encrypt=true;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect"/>
             <property name="hibernate.hbm2ddl.auto" value="create"/>
             <!--<property name="hibernate.hbm2ddl.auto" value="update"/>-->

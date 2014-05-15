@@ -2,9 +2,7 @@ package org.govhack.correlate.persistence.table;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.govhack.correlate.model.DataSet;
-import org.govhack.correlate.model.Domain;
-import org.govhack.correlate.model.Range;
+import org.govhack.correlate.model.*;
 import org.govhack.correlate.persistence.Repository;
 import org.govhack.correlate.persistence.UnitOfWork;
 
@@ -39,10 +37,10 @@ public class JpaUnitOfWork implements UnitOfWork {
 
     @Override
     public Repository<DataSet> getDataSetRepository() {
-        if(dataSetRepository == null) {
+        if (dataSetRepository == null) {
             dataSetRepository = new DefaultRepository<DataSet>(entityManager, DataSet.class);
         }
-        
+
         return dataSetRepository;
     }
 
@@ -50,7 +48,7 @@ public class JpaUnitOfWork implements UnitOfWork {
 
     @Override
     public Repository<Range> getRangeRepository() {
-        if(rangeRepository == null) {
+        if (rangeRepository == null) {
             rangeRepository = new DefaultRepository<Range>(entityManager, Range.class);
         }
 
@@ -61,11 +59,33 @@ public class JpaUnitOfWork implements UnitOfWork {
 
     @Override
     public Repository<Domain> getDomainRepository() {
-        if(domainRepository == null) {
+        if (domainRepository == null) {
             domainRepository = new DefaultRepository<Domain>(entityManager, Domain.class);
         }
 
         return domainRepository;
+    }
+
+    private DefaultRepository<Correlation> correlationRepository;
+
+    @Override
+    public Repository<Correlation> getCorrelationRepository() {
+        if (correlationRepository == null) {
+            correlationRepository = new DefaultRepository<Correlation>(entityManager, Correlation.class);
+        }
+
+        return correlationRepository;
+    }
+
+    private DefaultRepository<DataSetPair> dataSetPairRepository;
+
+    @Override
+    public Repository<DataSetPair> getDataSetPairRepository() {
+        if (dataSetPairRepository == null) {
+            dataSetPairRepository = new DefaultRepository<DataSetPair>(entityManager, DataSetPair.class);
+        }
+
+        return dataSetPairRepository;
     }
 
     public boolean isReadOnly() {

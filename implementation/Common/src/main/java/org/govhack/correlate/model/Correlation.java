@@ -16,6 +16,8 @@ public class Correlation extends AbstractTableEntity {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private DataSetPair pairTwo;
 
+    private double correlationScore;
+
     private double funnyScore;
     private double relevanceScore;
 
@@ -49,5 +51,13 @@ public class Correlation extends AbstractTableEntity {
 
     public void setRelevanceScore(double relevanceScore) {
         this.relevanceScore = relevanceScore;
+    }
+
+    public double getCorrelationScore() {
+        return correlationScore;
+    }
+
+    public void setCorrelationScore(double correlationScore) {
+        this.correlationScore = correlationScore;
     }
 }

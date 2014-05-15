@@ -4,6 +4,7 @@ import org.govhack.correlate.model.Entity;
 import org.govhack.correlate.persistence.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,17 +31,15 @@ public class DefaultRepository<T extends Entity> implements Repository<T> {
     }
 
     @Override
-    public void update(T val) {
-        mgr.persist(val);
-    }
-
-    @Override
     public void delete(T val) {
         mgr.remove(val);
     }
 
     @Override
     public List<T> all() {
-        return null;
+        CriteriaQuery<T> criteria = mgr.getCriteriaBuilder().createQuery(clazz);
+        criteria.select(criteria.from(clazz));
+
+        return mgr.createQuery(criteria).getResultList();
     }
 }

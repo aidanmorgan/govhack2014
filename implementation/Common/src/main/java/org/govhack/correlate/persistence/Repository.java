@@ -13,8 +13,6 @@ public interface Repository<T extends Entity> {
 
     public void add(T val);
 
-    public void update(T val);
-
     public void delete(T val);
 
     public List<T> all();
