@@ -1,9 +1,9 @@
 package org.govhack.correlate.persistence;
 
-import com.microsoft.windowsazure.services.blob.client.CloudBlobClient;
-import com.microsoft.windowsazure.services.core.storage.CloudStorageAccount;
-import com.microsoft.windowsazure.services.table.client.CloudTableClient;
+import com.microsoft.azure.storage.CloudStorageAccount;
+import com.microsoft.azure.storage.blob.CloudBlobClient;
 import org.apache.commons.lang.StringUtils;
+import org.govhack.correlate.persistence.blob.DataRepository;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -93,13 +93,17 @@ public class RepositoryContext {
         this.storageAccountKey = storageAccountKey;
     }
 
+    public DataRepository createDataRepository() {
+        return new DataRepository(this);
+    }
+
     /**
      * Helper method that will build the Azure connection string using the configured storage account name
      * and key.
      *
      * @return the Azure connection string to use for connection to Azure services.
      */
-    private String createConnectionString() {
+    private String createBlobStoreConnectionString() {
         StringBuilder buffer = new StringBuilder("DefaultEndpointsProtocol=http;");
         buffer.append("AccountName=");
         buffer.append(storageAccount);
@@ -111,29 +115,13 @@ public class RepositoryContext {
     }
 
     /**
-     * Returns a new instance of the {@see CloudTableClient} configured using the credentials in this context.
-     *
-     * @return a new instance of the {@see CloudTableClient} configured using the credentials in this context.
-     */
-    public CloudTableClient createTableClient() {
-        try {
-            CloudStorageAccount storageAccount = CloudStorageAccount.parse(createConnectionString());
-            return storageAccount.createCloudTableClient();
-        } catch (URISyntaxException e) {
-            throw new PersistenceExcepion(e);
-        } catch (InvalidKeyException e) {
-            throw new PersistenceExcepion(e);
-        }
-    }
-
-    /**
      * Returns a new instance of the {@see CloudBlobClient} configured using the credentials in this context.
      *
      * @return a new instance of the {@see CloudBlobClient} configured using the credentials in this context.
      */
     public CloudBlobClient createBlobClient() {
         try {
-            CloudStorageAccount storageAccount = CloudStorageAccount.parse(createConnectionString());
+            CloudStorageAccount storageAccount = CloudStorageAccount.parse(createBlobStoreConnectionString());
             return storageAccount.createCloudBlobClient();
         } catch (URISyntaxException e) {
             throw new PersistenceExcepion(e);

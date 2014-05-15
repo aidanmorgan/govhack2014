@@ -1,8 +1,11 @@
 package org.govhack.correlate.model;
 
+import javax.persistence.Embeddable;
+
 /**
  * @author Aidan Morgan
  */
+@Embeddable
 public class InterpolationMode {
     private boolean isDefault;
     private double defaultValue;

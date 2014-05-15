@@ -7,21 +7,21 @@ import java.util.UUID;
 /**
  * @author Aidan Morgan
  */
-public class Data {
-    private UUID id;
+public class Data implements Entity {
+    private String id;
 
     private List<Double> values;
 
     public Data() {
-        this.id = UUID.randomUUID();
+        this.id = UUID.randomUUID().toString();
         this.values = new ArrayList<Double>();
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 

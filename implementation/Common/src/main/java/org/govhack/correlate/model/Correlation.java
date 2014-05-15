@@ -1,34 +1,53 @@
 package org.govhack.correlate.model;
 
-import java.util.UUID;
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.OneToOne;
 
 /**
  * @author Aidan Morgan
  */
-public class Correlation {
-    private UUID correlationId;
+@javax.persistence.Entity
+public class Correlation extends AbstractTableEntity {
 
-    private UUID pairOneId;
-    private UUID pairTwoId;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private DataSetPair pairOne;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private DataSetPair pairTwo;
 
     private double funnyScore;
     private double relevanceScore;
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Correlation that = (Correlation) o;
-
-        if (!correlationId.equals(that.correlationId)) return false;
-
-        return true;
+    public DataSetPair getPairOne() {
+        return pairOne;
     }
 
-    @Override
-    public int hashCode() {
-        return correlationId.hashCode();
+    public void setPairOne(DataSetPair pairOne) {
+        this.pairOne = pairOne;
+    }
+
+    public DataSetPair getPairTwo() {
+        return pairTwo;
+    }
+
+    public void setPairTwo(DataSetPair pairTwo) {
+        this.pairTwo = pairTwo;
+    }
+
+    public double getFunnyScore() {
+        return funnyScore;
+    }
+
+    public void setFunnyScore(double funnyScore) {
+        this.funnyScore = funnyScore;
+    }
+
+    public double getRelevanceScore() {
+        return relevanceScore;
+    }
+
+    public void setRelevanceScore(double relevanceScore) {
+        this.relevanceScore = relevanceScore;
     }
 }

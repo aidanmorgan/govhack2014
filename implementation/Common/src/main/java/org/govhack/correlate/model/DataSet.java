@@ -1,25 +1,27 @@
 package org.govhack.correlate.model;
 
-import java.util.UUID;
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Aidan Morgan
  */
-public class DataSet {
-    private UUID id;
+@javax.persistence.Entity
+public class DataSet extends AbstractTableEntity {
     private String name;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<DataSetPair> pairs = new ArrayList<DataSetPair>();
+
+    public DataSet() {
+        super();
+    }
 
     public DataSet(String name) {
         this.name = name;
-        this.id = UUID.randomUUID();
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -30,20 +32,11 @@ public class DataSet {
         this.name = name;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        DataSet dataSet = (DataSet) o;
-
-        if (!id.equals(dataSet.id)) return false;
-
-        return true;
+    public List<DataSetPair> getPairs() {
+        return pairs;
     }
 
-    @Override
-    public int hashCode() {
-        return id.hashCode();
+    public void setPairs(List<DataSetPair> pairs) {
+        this.pairs = pairs;
     }
 }

@@ -1,30 +1,21 @@
 package org.govhack.correlate.model;
 
+import javax.persistence.Embedded;
 import java.util.UUID;
 
 /**
  * @author Aidan Morgan
  */
-public class Range {
-    private UUID id;
+@javax.persistence.Entity
+public class Range extends AbstractTableEntity {
     private String name;
 
     private UUID dataId;
 
     private RangeType type;
+
+    @Embedded
     private InterpolationMode interpolationMode;
-
-    public Range() {
-        id = UUID.randomUUID();
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -56,23 +47,5 @@ public class Range {
 
     public void setInterpolationMode(InterpolationMode interpolationMode) {
         this.interpolationMode = interpolationMode;
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Range range = (Range) o;
-
-        if (!id.equals(range.id)) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return id.hashCode();
     }
 }

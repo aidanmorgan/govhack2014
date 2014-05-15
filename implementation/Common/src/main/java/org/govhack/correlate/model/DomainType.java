@@ -7,5 +7,5 @@ public enum DomainType {
     DATE,
     DATE_TIME,
     GEOSPATIAL_COORDINATE,
-    GEOSPATIAL_NAME
+    GEOSPATIAL_NAME;
 }
