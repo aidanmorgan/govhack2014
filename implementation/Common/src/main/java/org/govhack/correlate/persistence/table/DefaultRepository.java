@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.UUID;
 
 /**
+ * A default implementation of the {@see Repository} interface that uses {@code Hibernate} as the backing
+ * object-relational mapper.
+ *
  * @author Aidan Morgan
  */
 public class DefaultRepository<T extends Entity> implements Repository<T> {
@@ -29,7 +32,7 @@ public class DefaultRepository<T extends Entity> implements Repository<T> {
 
     @Override
     public void add(T val) {
-        if(unitOfWork.isReadOnly()) {
+        if (unitOfWork.isReadOnly()) {
             throw new IllegalStateException("Cannot call add() on a read only UnitOfWork.");
         }
 
@@ -38,7 +41,7 @@ public class DefaultRepository<T extends Entity> implements Repository<T> {
 
     @Override
     public void delete(T val) {
-        if(unitOfWork.isReadOnly()) {
+        if (unitOfWork.isReadOnly()) {
             throw new IllegalStateException("Cannot call delete() on a read only UnitOfWork.");
         }
 

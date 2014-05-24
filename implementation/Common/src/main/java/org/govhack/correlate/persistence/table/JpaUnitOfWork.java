@@ -10,6 +10,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 /**
+ * An implementation of the {@see UnitOfWork} interface that uses {@code Hibernate} as the object-relational
+ * mapper.
+ *
  * @author Aidan Morgan
  */
 public class JpaUnitOfWork implements UnitOfWork {
@@ -18,6 +21,14 @@ public class JpaUnitOfWork implements UnitOfWork {
     private final boolean isReadOnly;
     private EntityManager entityManager;
 
+    /**
+     * Static factory method for creating new instances of the {@see JpaUnitOfWork}.
+     *
+     * @param entityManagerFactory the {@see EntityManagerFactory} to use for establishing database connections.
+     * @param isReadOnly           {@code true} if this {@see UnitOfWork} should be read-only, {@code false} otherwise.
+     * @return a new {@see UnitOfWork} instance, configured to connect to the database using a new {@see EntityManager} instance
+     * returned from the provided {@see EntityManagerFactory}.
+     */
     public static UnitOfWork create(EntityManagerFactory entityManagerFactory, boolean isReadOnly) {
         EntityManager manager = entityManagerFactory.createEntityManager();
 

@@ -103,11 +103,6 @@ public abstract class AbstractBlobRepository<T extends Entity> implements Reposi
         }
     }
 
-    @Override
-    public void update(T val) {
-        // updating the blob store is the same as just writing the same value back as if it was a add.
-        add(val);
-    }
 
     @Override
     public List<T> all() {

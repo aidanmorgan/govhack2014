@@ -7,12 +7,15 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 /**
+ * An implementation of the {@see UnitOfWorkFactory} interface that uses {@code Hibernate} to perform the
+ * object-relational mapping.
+ *
  * @author Aidan Morgan
  */
 public class JpaUnitOfWorkFactory implements UnitOfWorkFactory {
-
     public static final String PERSISTENCE_UNIT_NAME = "azure";
-    private EntityManagerFactory entityManagerFactory;
+
+    private final EntityManagerFactory entityManagerFactory;
 
     public JpaUnitOfWorkFactory() {
         this(Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME));

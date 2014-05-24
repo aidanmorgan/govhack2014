@@ -10,6 +10,7 @@ public class InterpolationMode {
     private boolean isDefault;
     private double defaultValue;
     private boolean isSpline;
+    private boolean isRepeatPrevious;
 
     public static InterpolationMode createDefaultValue(double defaultValue) {
         InterpolationMode mode = new InterpolationMode();
@@ -22,6 +23,13 @@ public class InterpolationMode {
     public static InterpolationMode createSpline() {
         InterpolationMode mode = new InterpolationMode();
         mode.setSpline(true);
+
+        return mode;
+    }
+
+    public static InterpolationMode createRepeatLast() {
+        InterpolationMode mode = new InterpolationMode();
+        mode.setRepeatPrevious(true);
 
         return mode;
     }
@@ -48,6 +56,14 @@ public class InterpolationMode {
 
     public void setSpline(boolean isSpline) {
         this.isSpline = isSpline;
+    }
+
+    public boolean isRepeatPrevious() {
+        return isRepeatPrevious;
+    }
+
+    public void setRepeatPrevious(boolean isRepeatPrevious) {
+        this.isRepeatPrevious = isRepeatPrevious;
     }
 
     @Override

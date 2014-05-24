@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * A {@see DataSet} contains some high-level information about a source of data, as well as references
+ * to all of the {@see DataSetPair} instances that have been obtained from this data source.
+ *
  * @author Aidan Morgan
  */
 @javax.persistence.Entity

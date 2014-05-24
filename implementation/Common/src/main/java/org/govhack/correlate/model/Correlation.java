@@ -5,15 +5,18 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 
 /**
+ * A {@see Correlation} stores the correlation coefficient that has resulted from comparing the two
+ * {@see DataSetPair} instances.
+ *
  * @author Aidan Morgan
  */
 @javax.persistence.Entity
 public class Correlation extends AbstractTableEntity {
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     private DataSetPair pairOne;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     private DataSetPair pairTwo;
 
     private double correlationScore;
