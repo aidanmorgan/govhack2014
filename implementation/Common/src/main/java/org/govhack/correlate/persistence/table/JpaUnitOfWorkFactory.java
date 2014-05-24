@@ -5,6 +5,7 @@ import org.govhack.correlate.persistence.UnitOfWorkFactory;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.Map;
 
 /**
  * An implementation of the {@see UnitOfWorkFactory} interface that uses {@code Hibernate} to perform the
@@ -17,8 +18,8 @@ public class JpaUnitOfWorkFactory implements UnitOfWorkFactory {
 
     private final EntityManagerFactory entityManagerFactory;
 
-    public JpaUnitOfWorkFactory() {
-        this(Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME));
+    public JpaUnitOfWorkFactory(Map<String, String> props) {
+        this(Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, props));
     }
 
     public JpaUnitOfWorkFactory(EntityManagerFactory entityManagerFactory) {

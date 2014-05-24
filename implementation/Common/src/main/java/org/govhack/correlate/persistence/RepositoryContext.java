@@ -2,8 +2,10 @@ package org.govhack.correlate.persistence;
 
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.blob.CloudBlobClient;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.govhack.correlate.persistence.blob.DataRepository;
+import org.govhack.correlate.persistence.table.JpaUnitOfWorkFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,6 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -19,6 +23,10 @@ import java.util.Properties;
 public class RepositoryContext {
     public static final String STORAGE_ACCOUNT_PROPERTY = "storageAccount";
     public static final String STORAGE_ACCOUNT_KEY_PROPERTY = "storageAccountKey";
+    private static final String HIBERNATE_CONNECTION_URL_PROPERTY = "hibernate.connection.url";
+    private static final String HIBERNATE_DDL_AUTO_PROPERTY = "hibernate.hbm2ddl.auto";
+
+    private final Properties properties;
 
     /**
      * Helper method that will attempt to load a property value from the provided {@see Properties} instance,
@@ -60,15 +68,9 @@ public class RepositoryContext {
         try {
             props.load(is);
 
-            return new RepositoryContext(getProperty(props, STORAGE_ACCOUNT_PROPERTY), getProperty(props, STORAGE_ACCOUNT_KEY_PROPERTY));
+            return new RepositoryContext(props);
         } finally {
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    // ignore !
-                }
-            }
+            IOUtils.closeQuietly(is);
         }
 
     }
@@ -85,13 +87,10 @@ public class RepositoryContext {
         return loadContext(new FileInputStream(f));
     }
 
-    private String storageAccount;
-    private String storageAccountKey;
-
-    public RepositoryContext(String storageAccount, String storageAccountKey) {
-        this.storageAccount = storageAccount;
-        this.storageAccountKey = storageAccountKey;
+    public RepositoryContext(Properties props) {
+        this.properties = props;
     }
+
 
     public DataRepository createDataRepository() {
         return new DataRepository(this);
@@ -106,10 +105,10 @@ public class RepositoryContext {
     private String createBlobStoreConnectionString() {
         StringBuilder buffer = new StringBuilder("DefaultEndpointsProtocol=http;");
         buffer.append("AccountName=");
-        buffer.append(storageAccount);
+        buffer.append(getProperty(properties, STORAGE_ACCOUNT_PROPERTY));
         buffer.append(";");
         buffer.append("AccountKey=");
-        buffer.append(storageAccountKey);
+        buffer.append(getProperty(properties, STORAGE_ACCOUNT_KEY_PROPERTY));
 
         return buffer.toString();
     }
@@ -128,5 +127,12 @@ public class RepositoryContext {
         } catch (InvalidKeyException e) {
             throw new PersistenceExcepion(e);
         }
+    }
+
+    public UnitOfWorkFactory createUnitOfWorkFactory() {
+        Map<String, String> connProps = new HashMap<String, String>();
+        connProps.put("hibernate.connection.url", getProperty(properties, HIBERNATE_CONNECTION_URL_PROPERTY));
+
+        return new JpaUnitOfWorkFactory(connProps);
     }
 }
