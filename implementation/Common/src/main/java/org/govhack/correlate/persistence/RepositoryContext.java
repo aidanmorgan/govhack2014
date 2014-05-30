@@ -21,12 +21,16 @@ import java.util.Properties;
  * @author Aidan Morgan
  */
 public class RepositoryContext {
-    public static final String STORAGE_ACCOUNT_PROPERTY = "storageAccount";
-    public static final String STORAGE_ACCOUNT_KEY_PROPERTY = "storageAccountKey";
+    public static final String STORAGE_ACCOUNT_PROPERTY = "azure.storage.account";
+    public static final String STORAGE_ACCOUNT_KEY_PROPERTY = "azure.storage.account.key";
     private static final String HIBERNATE_CONNECTION_URL_PROPERTY = "hibernate.connection.url";
-    private static final String HIBERNATE_DDL_AUTO_PROPERTY = "hibernate.hbm2ddl.auto";
+    public static final String CONNECTION_URL_PROPERTY = "hibernate.connection.url";
 
     private final Properties properties;
+
+    private String storageAccountName;
+    private String storageAccountKey;
+    private String connectionUrl;
 
     /**
      * Helper method that will attempt to load a property value from the provided {@see Properties} instance,
@@ -46,13 +50,7 @@ public class RepositoryContext {
             throw new IllegalArgumentException("Cannot retrieve an unspecified key value from the Properties instance.");
         }
 
-        String val = prop.getProperty(key, null);
-
-        if (val == null) {
-            throw new IllegalArgumentException("Cannot load key " + key + " from Properties.");
-        }
-
-        return val;
+        return prop.getProperty(key, null);
     }
 
     /**
@@ -91,10 +89,46 @@ public class RepositoryContext {
         this.properties = props;
     }
 
+    public void setStorageAccountName(String storageAccountName) {
+        this.storageAccountName = storageAccountName;
+    }
+
+    public void setStorageAccountKey(String storageAccountKey) {
+        this.storageAccountKey = storageAccountKey;
+    }
+
+    public void setConnectionUrl(String connectionUrl) {
+        this.connectionUrl = connectionUrl;
+    }
+
+    public String getStorageAccountName() {
+        if (StringUtils.isEmpty(storageAccountName)) {
+            return getProperty(properties, STORAGE_ACCOUNT_PROPERTY);
+        }
+
+        return storageAccountName;
+    }
+
+    public String getStorageAccountKey() {
+        if (StringUtils.isEmpty(storageAccountKey)) {
+            return getProperty(properties, STORAGE_ACCOUNT_KEY_PROPERTY);
+        }
+
+        return storageAccountKey;
+    }
+
+    public String getConnectionUrl() {
+        if (StringUtils.isEmpty(connectionUrl)) {
+            return getProperty(properties, HIBERNATE_CONNECTION_URL_PROPERTY);
+        }
+
+        return connectionUrl;
+    }
 
     public DataRepository createDataRepository() {
         return new DataRepository(this);
     }
+
 
     /**
      * Helper method that will build the Azure connection string using the configured storage account name
@@ -105,10 +139,10 @@ public class RepositoryContext {
     private String createBlobStoreConnectionString() {
         StringBuilder buffer = new StringBuilder("DefaultEndpointsProtocol=http;");
         buffer.append("AccountName=");
-        buffer.append(getProperty(properties, STORAGE_ACCOUNT_PROPERTY));
+        buffer.append(getProperty(properties, getStorageAccountName()));
         buffer.append(";");
         buffer.append("AccountKey=");
-        buffer.append(getProperty(properties, STORAGE_ACCOUNT_KEY_PROPERTY));
+        buffer.append(getProperty(properties, getStorageAccountKey()));
 
         return buffer.toString();
     }
@@ -131,8 +165,12 @@ public class RepositoryContext {
 
     public UnitOfWorkFactory createUnitOfWorkFactory() {
         Map<String, String> connProps = new HashMap<String, String>();
-        connProps.put("hibernate.connection.url", getProperty(properties, HIBERNATE_CONNECTION_URL_PROPERTY));
+        connProps.put(CONNECTION_URL_PROPERTY, getConnectionUrl());
 
-        return new JpaUnitOfWorkFactory(connProps);
+        return createUnitOfWorkFactory(connProps);
+    }
+
+    protected UnitOfWorkFactory createUnitOfWorkFactory(Map<String, String> map) {
+        return new JpaUnitOfWorkFactory(map);
     }
 }
