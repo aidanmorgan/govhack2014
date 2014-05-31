@@ -1,6 +1,8 @@
 package org.govhack.correlate.persistence.fakes;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.govhack.correlate.persistence.RepositoryContext;
 import org.govhack.correlate.persistence.UnitOfWorkFactory;
 import org.govhack.correlate.persistence.table.JpaUnitOfWorkFactory;
@@ -14,6 +16,8 @@ import java.util.Properties;
  * @author Aidan Morgan
  */
 public class IntegrationRepositoryContext extends RepositoryContext {
+    private static final Log LOG = LogFactory.getLog(IntegrationRepositoryContext.class);
+
     public static final String DRIVER_CLASS_PROPERTY = "hibernate.connection.driver_class";
     public static final String DIALECT_PROPERTY = "hibernate.dialect";
     public static final String BASE_CONNECTION_STRING = "jdbc:h2:file:";
@@ -48,7 +52,6 @@ public class IntegrationRepositoryContext extends RepositoryContext {
     @Override
     protected UnitOfWorkFactory createUnitOfWorkFactory(Map<String, String> map) {
         map.put(CONNECTION_URL_PROPERTY, BASE_CONNECTION_STRING + getFileName(databaseFile));
-
         map.put(DRIVER_CLASS_PROPERTY, "org.h2.Driver");
         map.put(DIALECT_PROPERTY, "org.hibernate.dialect.H2Dialect");
 
@@ -59,7 +62,9 @@ public class IntegrationRepositoryContext extends RepositoryContext {
         try {
             FileUtils.forceDelete(databaseFile);
         } catch (IOException e) {
-            // going to ignore this
+            if (LOG.isInfoEnabled()) {
+                LOG.info("IOException thrown attempting to delete File \"" + getFileName(databaseFile) + "\".", e);
+            }
         }
     }
 
