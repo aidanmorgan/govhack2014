@@ -24,6 +24,14 @@ public class Correlation extends AbstractTableEntity {
     private double funnyScore;
     private double relevanceScore;
 
+    public Correlation() {
+    }
+
+    public Correlation(DataSetPair one, DataSetPair two) {
+        setPairOne(one);
+        setPairTwo(two);
+    }
+
     public DataSetPair getPairOne() {
         return pairOne;
     }

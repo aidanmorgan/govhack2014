@@ -28,10 +28,14 @@ public class Domain extends AbstractTableEntity {
     }
 
     public Domain(String name, DomainType type) {
-        setName(name);
-        setType(type);
+        this(name, type, null);
     }
 
+    public Domain(String name, DomainType type, String dataId) {
+        setName(name);
+        setType(type);
+        setDataId(dataId);
+    }
 
     public DomainType getType() {
         return type;

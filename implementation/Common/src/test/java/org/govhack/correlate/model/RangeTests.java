@@ -43,14 +43,6 @@ public class RangeTests {
     }
 
     @Test(expected = javax.persistence.PersistenceException.class)
-    public void saveWithNoIdSet_shouldThrowPersistenceException() {
-        Range d = createRange();
-        d.setId(null);
-
-        saveRange(d);
-    }
-
-    @Test(expected = javax.persistence.PersistenceException.class)
     public void saveWithNoDataIdSet_shouldThrowPersistenceException() {
         Range d = createRange();
         d.setDataId(null);

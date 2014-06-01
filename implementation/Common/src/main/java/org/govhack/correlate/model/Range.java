@@ -33,9 +33,14 @@ public class Range extends AbstractTableEntity {
     }
 
     public Range(String name, RangeType type, InterpolationMode interpolationMode) {
+        this(name, type, interpolationMode, null);
+    }
+
+    public Range(String name, RangeType type, InterpolationMode interpolationMode, String dataId) {
         setName(name);
         setType(type);
         setInterpolationMode(interpolationMode);
+        setDataId(dataId);
     }
 
     public String getName() {

@@ -20,13 +20,19 @@ import javax.persistence.OneToOne;
 public class DataSetPair extends AbstractTableEntity {
     private String name;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     private Domain domain;
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     private Range range;
 
     public DataSetPair() {
 
+    }
+
+    public DataSetPair(String name, Domain domain, Range range) {
+        setName(name);
+        setDomain(domain);
+        setRange(range);
     }
 
     public String getName() {
@@ -37,5 +43,19 @@ public class DataSetPair extends AbstractTableEntity {
         this.name = name;
     }
 
+    public Domain getDomain() {
+        return domain;
+    }
 
+    public void setDomain(Domain domain) {
+        this.domain = domain;
+    }
+
+    public Range getRange() {
+        return range;
+    }
+
+    public void setRange(Range range) {
+        this.range = range;
+    }
 }

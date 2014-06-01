@@ -43,14 +43,6 @@ public class DomainTests {
     }
 
     @Test(expected = javax.persistence.PersistenceException.class)
-    public void saveWithNoIdSet_shouldThrowPersistenceException() {
-        Domain d = createDomain();
-        d.setId(null);
-
-        saveDomain(d);
-    }
-
-    @Test(expected = javax.persistence.PersistenceException.class)
     public void saveWithNoDataIdSet_shouldThrowPersistenceException() {
         Domain d = createDomain();
         d.setDataId(null);
