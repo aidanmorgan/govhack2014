@@ -21,16 +21,16 @@ public class AbstractTableEntity implements Entity {
         setId(id.toString());
     }
 
-    public String getId() {
+    public final String getId() {
         return id;
     }
 
-    public void setId(String uuid) {
+    public final void setId(String uuid) {
         this.id = uuid;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public final boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
@@ -42,7 +42,7 @@ public class AbstractTableEntity implements Entity {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return id.hashCode();
     }
 }

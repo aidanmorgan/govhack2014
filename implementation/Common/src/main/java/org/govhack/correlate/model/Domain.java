@@ -3,7 +3,6 @@ package org.govhack.correlate.model;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import java.util.UUID;
 
 /**
  * A {@see Domain} corresponds traditionally to the x-axis of a cartesian graph.
@@ -23,14 +22,14 @@ public class Domain extends AbstractTableEntity {
     private DomainType type;
 
     @Column(nullable = false)
-    private UUID dataId;
+    private String dataId;
 
     public Domain() {
     }
 
     public Domain(String name, DomainType type) {
-        this.name = name;
-        this.type = type;
+        setName(name);
+        setType(type);
     }
 
 
@@ -50,11 +49,11 @@ public class Domain extends AbstractTableEntity {
         this.name = name;
     }
 
-    public UUID getDataId() {
+    public String getDataId() {
         return dataId;
     }
 
-    public void setDataId(UUID dataId) {
+    public void setDataId(String dataId) {
         this.dataId = dataId;
     }
 }

@@ -3,7 +3,6 @@ package org.govhack.correlate.persistence;
 import org.govhack.correlate.model.Entity;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * An interface that defines the basic operations a {@see Repository} should provide.
@@ -17,7 +16,7 @@ public interface Repository<T extends Entity> {
      * @param id the id to retrieve the entity for.
      * @return the entity with the provided id, {@code null} otherwise.
      */
-    public T get(UUID id);
+    public T get(String id);
 
     /**
      * Adds the provided {@see T} instance to the database, will not be persisted until the owning {@see UnitOfWork}

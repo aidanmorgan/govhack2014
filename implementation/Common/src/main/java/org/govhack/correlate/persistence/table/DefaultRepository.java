@@ -6,7 +6,6 @@ import org.govhack.correlate.persistence.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * A default implementation of the {@see Repository} interface that uses {@code Hibernate} as the backing
@@ -26,7 +25,7 @@ public class DefaultRepository<T extends Entity> implements Repository<T> {
     }
 
     @Override
-    public T get(UUID id) {
+    public T get(String id) {
         return entityManager.find(clazz, id);
     }
 
@@ -45,7 +44,13 @@ public class DefaultRepository<T extends Entity> implements Repository<T> {
             throw new IllegalStateException("Cannot call delete() on a read only UnitOfWork.");
         }
 
-        entityManager.remove(val);
+        if (val == null) {
+            throw new IllegalArgumentException("Cannot delete() a null instance.");
+        }
+
+        // load the value from the entity manager to handle detached object cases...
+        T toDelete = entityManager.find(clazz, val.getId());
+        entityManager.remove(toDelete);
     }
 
     @Override

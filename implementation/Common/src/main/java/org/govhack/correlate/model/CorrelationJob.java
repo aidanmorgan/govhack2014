@@ -2,8 +2,6 @@ package org.govhack.correlate.model;
 
 import org.govhack.correlate.persistence.UnitOfWork;
 
-import java.util.UUID;
-
 /**
  * @author Aidan Morgan
  */
@@ -25,11 +23,11 @@ public class CorrelationJob {
     }
 
     public DataSetPair getPairOne(UnitOfWork uow) {
-        return uow.getDataSetPairRepository().get(UUID.fromString(pairOneId));
+        return uow.getDataSetPairRepository().get(pairOneId);
     }
 
     public DataSetPair getPairTwo(UnitOfWork uow) {
-        return uow.getDataSetPairRepository().get(UUID.fromString(pairTwoId));
+        return uow.getDataSetPairRepository().get(pairTwoId);
     }
 
     public Correlation createCorrelation(UnitOfWork uow, double relevance) {

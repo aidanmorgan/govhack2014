@@ -20,11 +20,17 @@ public class IntegrationRepositoryContext extends RepositoryContext {
 
     public static final String DRIVER_CLASS_PROPERTY = "hibernate.connection.driver_class";
     public static final String DIALECT_PROPERTY = "hibernate.dialect";
+    public static final String DDL_AUTOCREATE_PROPERTY = "hibernate.hbm2ddl.auto";
+
     public static final String BASE_CONNECTION_STRING = "jdbc:h2:file:";
 
     public static IntegrationRepositoryContext create() {
+        return create("Govhack2014-IntegrationTest");
+    }
+
+    public static IntegrationRepositoryContext create(String prefix) {
         try {
-            File tempFile = File.createTempFile("Govhack2014-IntegrationTest", ".db");
+            File tempFile = File.createTempFile(prefix, ".db");
             tempFile.deleteOnExit();
 
             return new IntegrationRepositoryContext(tempFile);
@@ -54,6 +60,7 @@ public class IntegrationRepositoryContext extends RepositoryContext {
         map.put(CONNECTION_URL_PROPERTY, BASE_CONNECTION_STRING + getFileName(databaseFile));
         map.put(DRIVER_CLASS_PROPERTY, "org.h2.Driver");
         map.put(DIALECT_PROPERTY, "org.hibernate.dialect.H2Dialect");
+        map.put(DDL_AUTOCREATE_PROPERTY, "create-drop");
 
         return new JpaUnitOfWorkFactory(map);
     }

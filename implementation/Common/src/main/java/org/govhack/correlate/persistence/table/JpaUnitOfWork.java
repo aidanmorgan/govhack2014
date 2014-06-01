@@ -3,6 +3,7 @@ package org.govhack.correlate.persistence.table;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.govhack.correlate.model.*;
+import org.govhack.correlate.persistence.PersistenceExcepion;
 import org.govhack.correlate.persistence.Repository;
 import org.govhack.correlate.persistence.UnitOfWork;
 
@@ -119,6 +120,8 @@ public class JpaUnitOfWork implements UnitOfWork {
             if (s_log.isFatalEnabled()) {
                 s_log.fatal("Exception thrown during save().", e);
             }
+
+            throw new PersistenceExcepion(e);
         }
     }
 

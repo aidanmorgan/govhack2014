@@ -4,11 +4,10 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import java.util.UUID;
 
 /**
  * A {@see Range} corresoponds to the y-axis in a cartesian graph.
- *
+ * <p/>
  * Allows an {@see InterpolationMode} to be specified that is used to "predict" values that are between the defined
  * values in the {@see Range} when dealing with {@see Domain}s of different granularity (months vs. weeks).
  *
@@ -20,7 +19,7 @@ public class Range extends AbstractTableEntity {
     private String name;
 
     @Column(nullable = false)
-    private UUID dataId;
+    private String dataId;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -28,6 +27,16 @@ public class Range extends AbstractTableEntity {
 
     @Embedded
     private InterpolationMode interpolationMode;
+
+    public Range() {
+
+    }
+
+    public Range(String name, RangeType type, InterpolationMode interpolationMode) {
+        setName(name);
+        setType(type);
+        setInterpolationMode(interpolationMode);
+    }
 
     public String getName() {
         return name;
@@ -41,11 +50,11 @@ public class Range extends AbstractTableEntity {
         return type;
     }
 
-    public UUID getDataId() {
+    public String getDataId() {
         return dataId;
     }
 
-    public void setDataId(UUID dataId) {
+    public void setDataId(String dataId) {
         this.dataId = dataId;
     }
 

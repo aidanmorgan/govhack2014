@@ -14,7 +14,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author Aidan Morgan
@@ -32,17 +31,17 @@ public abstract class AbstractBlobRepository<T extends Entity> implements Reposi
     }
 
     @Override
-    public T get(UUID id) {
+    public T get(String id) {
         if (id == null) {
             throw new IllegalArgumentException("Cannot get Data with a null UUID.");
         }
 
         try {
             CloudBlobContainer container = context.createBlobClient().getContainerReference(containerName);
-            CloudBlockBlob blob = container.getBlockBlobReference(id.toString());
+            CloudBlockBlob blob = container.getBlockBlobReference(id);
 
             if (!blob.exists()) {
-                throw new PersistenceExcepion("Cannot load Data instance with id " + id.toString() + " as no instance exists.");
+                throw new PersistenceExcepion("Cannot load Data instance with id " + id + " as no instance exists.");
             }
 
             return readData(blob);
